@@ -31,7 +31,7 @@ package record_pattern;
  * @see <a href="https://openjdk.org/jeps/440">JEP 440: Record Patterns</a> for detailed information.
  */
 
-public class Record_Pattern {
+public class RecordPattern {
 
     static final Object a = "Suraj";
     static final Object person = new Person("Suraj" , 25);
@@ -87,7 +87,7 @@ public class Record_Pattern {
      * @see #pair  // Reference to the `pair` object declaration.
      */
 
-    private static void checkNestedPatternHavingDiffComponentType(Object pair){
+     private static void checkNestedPatternHavingDiffComponentType(Object pair){
         // The issue with diff type can be solved by using var and let compiler do the type check
         if(pair instanceof Pair(Integer s1 , String s2)){
                System.out.println(s1 + " " + s2);
