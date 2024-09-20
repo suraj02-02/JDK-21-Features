@@ -14,15 +14,24 @@ import java.util.concurrent.TimeUnit;
 
 public class AsyncClientServer {
 
+    /*** Provide the below URI based on you test ********/
     private static final String PLATFORM_THREAD_URI = "http://localhost:9000/platformthread/execute";
     private static final String VIRTUAL_THREAD_URI = "http://localhost:8000/virtualthread/execute";
+
+    /********** Request parameters and executor  *************/
     private static final int NUM_REQUESTS = 10_000; // adjust this to simulate the desired load
     private static final int CONCURRENCY_LEVEL = Runtime.getRuntime().availableProcessors() ; // adjust this to simulate the desired concurrency
+    static ExecutorService executor = Executors.newFixedThreadPool(CONCURRENCY_LEVEL);
 
+    /**
+     * Method will be executing the <code>{@link #sendRequest() }</code> method in parallel for <code>{@link #NUM_REQUESTS}</code> times.
+     * @param args
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
 
         Instant now = Instant.now();
-        ExecutorService executor = Executors.newFixedThreadPool(CONCURRENCY_LEVEL);
         for (int i = 0; i < NUM_REQUESTS; i++) {
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
@@ -41,6 +50,11 @@ public class AsyncClientServer {
         System.out.println("Load test completed in " + Duration.between(Instant.now() , now).getSeconds() + " seconds");
     }
 
+    /**
+     * Method will send a request to the provided URI.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private static void sendRequest() throws IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();

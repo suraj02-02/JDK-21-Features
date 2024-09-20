@@ -25,7 +25,7 @@ public class PlatformThreaded_HttpServer {
     private static final int SERVER_PORT = 9000;
     public static final String SERVER_CONTEXT_PATH = "/platformthread/execute";
     private static final int ACTIVE_QUEUED_CONNECTIONS_IN_BACKLOGS = 5;
-    private static final int THREAD_COUNT = 10;
+    private static final int THREAD_COUNT = 500;
     private static final String FILE_NAME = "Platform-Thread-Data.txt";
     static AtomicInteger counter = new AtomicInteger(0);
 
@@ -47,7 +47,8 @@ public class PlatformThreaded_HttpServer {
      */
     private static void taskTobeExecuted(HttpExchange httpExchange) throws IOException {
 
-        String response = "Message : " + counter.incrementAndGet()   + " has been recieved and was executed by thread : " + Thread.currentThread();
+        System.out.println("Request Count : " + counter.incrementAndGet()    +  " Thread Name : " + Thread.currentThread().getName());
+        String response = "Message : has been recieved and was executed by thread : " + Thread.currentThread();
         httpExchange.sendResponseHeaders(200 , response.length());
         // Upload Data to disk
         DataUploader.uploadData(httpExchange.getRequestBody() , FILE_NAME);

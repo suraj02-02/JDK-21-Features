@@ -1,0 +1,48 @@
+### Explaining HTTP servers request handling capabilty with Platform and Virtual Threads
+
+##PlatformThreaded_HttpServer -- HTTP server which will be accepting request from clients and executing each request in a separate Platform Thread
+##VirtualThreaded_HttpServer -- HTTP server which will be accepting request from clients and executing each request in a separate Virtual Thread
+
+##Pointers :
+Each server will be running on different port number.
+Each server will be running on different thread executor:
+       a. PlatformThreaded_HttpServer --  Platform Thread Executor : {@link Executors#newFixedThreadPool(int)}
+       b. VirtualThreaded_HttpServer -- Virtual Thread Executor : {@link Executors#newVirtualThreadPerTaskExecutor()}
+
+Each server will be running on different server context path URI on which we will be posting parallel requests.
+Each endpoint has similiar task to perform :
+     1. A Timed Waiting of 250ms
+     2. An upload of data to disk
+
+###Steps to execute this example :
+   1. Start both the PlatformThreaded_HttpServer and VirtualThreaded_HttpServer
+   2.  a.Post parallel requests to both the servers using below command. (PREFERED WAY)
+        b.After running both servers run the AsyncClientServer which will asynchronously post request to server based on provided URI
+
+Commands :
+
+VirtualThreaded_HttpServer : (Below cmd when executed on terminal will execute 700 parallel requests)
+---------------------------------------
+
+for i in {1..700}; do
+  curl -X POST \
+  http://localhost:8000/virtualthread/execute \
+  -H 'Content-Type: application/json' \
+  -d '{"key": "value"}' \
+  -z \
+  -w "%{http_code} %{time_total}\n" \
+  >> output.log &
+done
+
+PlatformThreaded_HttpServer : (Below cmd when executed on terminal will execute 700 parallel requests)
+---------------------------------------
+
+for i in {1..700}; do
+  curl -X POST \
+  http://localhost:9000/platformthread/execute \
+  -H 'Content-Type: application/json' \
+  -d '{"key": "value"}' \
+  -z \
+  -w "%{http_code} %{time_total}\n" \
+  >> output.log &
+done

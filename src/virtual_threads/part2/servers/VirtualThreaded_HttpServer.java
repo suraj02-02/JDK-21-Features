@@ -47,7 +47,8 @@ public class VirtualThreaded_HttpServer {
      */
     private static void taskTobeExecuted(HttpExchange httpExchange) throws IOException {
 
-        String response = "Message : " + counter.incrementAndGet()   + " has been recieved and was executed by thread : " + Thread.currentThread();
+        System.out.println("Request Count : " + counter.incrementAndGet()    +  " Thread Name : " + Thread.currentThread().getName());
+        String response = "Message :  has been recieved and was executed by thread : " + Thread.currentThread();
          httpExchange.sendResponseHeaders(200 , response.length());
          // Upload Data to disk
          DataUploader.uploadData(httpExchange.getRequestBody() , FILE_NAME);
