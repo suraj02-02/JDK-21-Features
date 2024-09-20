@@ -1,4 +1,4 @@
-package virtual_threads;
+package virtual_threads.part1;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -1,6 +1,4 @@
-package virtual_threads;
-
-import static java.lang.Thread.startVirtualThread;
+package virtual_threads.part1;
 
 /**
  * <b>
